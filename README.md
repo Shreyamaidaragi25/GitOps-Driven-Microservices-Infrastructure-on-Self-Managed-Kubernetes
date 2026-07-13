@@ -55,7 +55,7 @@ The following diagram illustrates the deployment pipeline and system runtime top
 | IaC | Terraform |
 | Configuration Management | Ansible |
 | Containerization | Docker |
-| Orchestration | Kubernetes (K3s) |
+| Orchestration | Kubernetes (K8s) |
 | Monitoring | Prometheus |
 | Visualization | Grafana |
 | Application | Python Flask |
@@ -119,40 +119,41 @@ Terraform provisions:
 - Custom VPC
 - Public Subnet
 - Security Group
-- 1 K3s Master Node
-- 2 K3s Worker Nodes
+- 1 K8s Master Node
+- 2 K8s Worker Nodes
 
 ---
 <img width="1272" height="367" alt="Screenshot 2026-07-12 235800" src="https://github.com/user-attachments/assets/b07f8f27-dfa8-4172-b8a4-a29a29913808" />
+---
 
 ```
+
 # 🚀 Step 1.1: Node Mapping & Key Propagation
 Following successful resource creation, extract the public IP properties to map host endpoints:
 
 ```bash
 terraform output
-Verify your targeted environment network configurations manually by matching context identities across your provisioned compute workspace:
 ```
 
 ```bash
-# SSH connection context for control host confirmation
+## SSH connection context for control host confirmation
 ssh -i ubuntu.pem ubuntu@<MASTER_PUBLIC_IP>
 ```
 
-# System naming network confirmation commands
+## System naming network confirmation commands
 
 hostname
 
-# Returns context confirmation matching instance allocations (e.g., ip-10-0-1-45)
+## Returns context confirmation matching instance allocations (e.g., ip-10-0-1-45)
 
 Confirm intra-cluster node access and pass security keys securely from your administrative machine up onto the Master node control container:
 
 ```bash
-# Push target instance context keys to deployment root host
+## Push target instance context keys to deployment root host
 scp -i ubuntu.pem ubuntu.pem ubuntu@<MASTER_PUBLIC_IP>:/home/ubuntu/
 ```
 
-# Lock deployment authentication privileges down to single-user read paths
+## Lock deployment authentication privileges down to single-user read paths
 
 chmod 400 /home/ubuntu/ubuntu.pem
 
@@ -162,18 +163,18 @@ Initialize the control logic on your Master instance to coordinate cluster state
 ```bash
 # Execute K3s installation target on the Master instance
 
-curl -sfL [https://get.k3s.io](https://get.k3s.io) | sh -
+curl -sfL [https://get.K8s.io](https://get.K8s.io) | sh -
 
 # Capture the node validation structural join sequence token
 
-sudo cat /var/lib/rancher/k3s/server/node-token
+sudo cat /var/lib/rancher/K8s/server/node-token
 
 # 🚀 Step 2: Configure Kubernetes Cluster (K8s)
 
-## Install K3s on Master
+## Install K8s on Master
 
 ```bash
-curl -sfL https://get.k3s.io | sh -
+curl -sfL https://get.K8s.io | sh -
 ```
 
 Verify:
@@ -187,7 +188,7 @@ sudo kubectl get nodes
 ## Get Cluster Join Token
 
 ```bash
-sudo cat /var/lib/rancher/k3s/server/node-token
+sudo cat /var/lib/rancher/K8s/server/node-token
 ```
 
 ---
@@ -203,7 +204,7 @@ hostname -I
 ## Join Worker Nodes
 
 ```bash
-curl -sfL https://get.k3s.io | \
+curl -sfL https://get.K8s.io | \
 K3S_URL=https://<MASTER_PRIVATE_IP>:6443 \
 K3S_TOKEN=<TOKEN> \
 sh -
@@ -244,11 +245,11 @@ sudo apt install ansible -y
 [k8s_master]
 10.0.1.45
 
-[k3s_workers]
+[K8s_workers]
 10.0.1.13
 10.0.1.38
 
-[k3s_cluster:children]
+[K8s_cluster:children]
 k8s_master
 k8s_workers
 
@@ -272,7 +273,7 @@ ansible all -i inventory.ini -m ping
 ```yaml
 ---
 - name: Install Docker
-  hosts: k3s_cluster
+  hosts: K8s_cluster
   become: yes
 
   tasks:
@@ -376,7 +377,6 @@ docker login
 docker push <dockerhub-username>/flask-app:latest
 ```
 <img width="1202" height="952" alt="Screenshot 2026-07-13 010928" src="https://github.com/user-attachments/assets/21dff75a-c4bd-4989-a9ea-45471499bc67" />
-<img width="847" height="257" alt="Screenshot 2026-07-13 011923" src="https://github.com/user-attachments/assets/5ab0cb94-7128-4792-9fd6-0ec553b8467b" />
 
 ---
 
@@ -453,7 +453,7 @@ kubectl get pods
 kubectl get svc
 ```
 <img width="1380" height="465" alt="Screenshot 2026-07-13 005129" src="https://github.com/user-attachments/assets/6209cc7a-60c7-4bd2-8b66-63dee56b580c" />
-
+<img width="847" height="257" alt="Screenshot 2026-07-13 011923" src="https://github.com/user-attachments/assets/5ab0cb94-7128-4792-9fd6-0ec553b8467b" />
 ---
 
 ## Access Application
