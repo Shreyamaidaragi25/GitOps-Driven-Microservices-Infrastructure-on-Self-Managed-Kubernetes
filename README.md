@@ -124,7 +124,7 @@ Terraform provisions:
 
 ---
 <img width="1272" height="367" alt="Screenshot 2026-07-12 235800" src="https://github.com/user-attachments/assets/b07f8f27-dfa8-4172-b8a4-a29a29913808" />
----
+
 
 ```
 
@@ -369,7 +369,6 @@ Expected:
 64 bytes from 10.0.1.38
 ```
 
-If connectivity is successful, proceed with K3s cluster installation.
 
 # 🚀 Step 2: Configure Kubernetes Cluster (K8s)
 
