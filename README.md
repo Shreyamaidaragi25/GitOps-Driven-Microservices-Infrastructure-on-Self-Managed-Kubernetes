@@ -128,46 +128,248 @@ Terraform provisions:
 
 ```
 
-# 🚀 Step 1.1: Node Mapping & Key Propagation
-Following successful resource creation, extract the public IP properties to map host endpoints:
+# 🚀 Step 1.1: Connect to EC2 Instances
+
+After Terraform provisions the infrastructure, retrieve the public IP addresses:
 
 ```bash
 terraform output
 ```
 
+Example Output:
+
+```text
+master_public_ip  = 15.206.xx.xx
+worker1_public_ip = 13.xx.xx.xx
+worker2_public_ip = 43.xx.xx.xx
+```
+
+---
+
+## SSH into Master Node
+
 ```bash
-## SSH connection context for control host confirmation
 ssh -i ubuntu.pem ubuntu@<MASTER_PUBLIC_IP>
 ```
 
-## System naming network confirmation commands
-
-hostname
-
-## Returns context confirmation matching instance allocations (e.g., ip-10-0-1-45)
-
-Confirm intra-cluster node access and pass security keys securely from your administrative machine up onto the Master node control container:
+Example:
 
 ```bash
-## Push target instance context keys to deployment root host
+ssh -i ubuntu.pem ubuntu@15.206.xx.xx
+```
+
+Verify hostname:
+
+```bash
+hostname
+```
+
+Expected:
+
+```text
+ip-10-0-1-45
+```
+
+---
+
+## Verify Private IP Address of Master
+
+```bash
+hostname -I
+```
+
+Expected:
+
+```text
+10.0.1.45
+```
+
+---
+
+## SSH into Worker Node 1
+
+```bash
+ssh -i ubuntu.pem ubuntu@<WORKER1_PUBLIC_IP>
+```
+
+Example:
+
+```bash
+ssh -i ubuntu.pem ubuntu@13.xx.xx.xx
+```
+
+Verify:
+
+```bash
+hostname
+```
+
+Expected:
+
+```text
+ip-10-0-1-13
+```
+
+---
+
+## Verify Private IP Address of Worker 1
+
+```bash
+hostname -I
+```
+
+Expected:
+
+```text
+10.0.1.13
+```
+
+---
+
+## SSH into Worker Node 2
+
+```bash
+ssh -i ubuntu.pem ubuntu@<WORKER2_PUBLIC_IP>
+```
+
+Example:
+
+```bash
+ssh -i ubuntu.pem ubuntu@43.xx.xx.xx
+```
+
+Verify:
+
+```bash
+hostname
+```
+
+Expected:
+
+```text
+ip-10-0-1-38
+```
+
+---
+
+## Verify Private IP Address of Worker 2
+
+```bash
+hostname -I
+```
+
+Expected:
+
+```text
+10.0.1.38
+```
+
+---
+
+## Copy SSH Key to Master Node
+
+From your local machine:
+
+```bash
 scp -i ubuntu.pem ubuntu.pem ubuntu@<MASTER_PUBLIC_IP>:/home/ubuntu/
 ```
 
-## Lock deployment authentication privileges down to single-user read paths
-
-chmod 400 /home/ubuntu/ubuntu.pem
-
-# 🚀 Step 1.2: Bootstrapping the Lightweight Kubernetes Cluster (K8s)
-Initialize the control logic on your Master instance to coordinate cluster states securely:
+Example:
 
 ```bash
-# Execute K3s installation target on the Master instance
+scp -i ubuntu.pem ubuntu.pem ubuntu@15.206.xx.xx:/home/ubuntu/
+```
 
-curl -sfL [https://get.K8s.io](https://get.K8s.io) | sh -
+---
 
-# Capture the node validation structural join sequence token
+## Secure the SSH Key on Master
 
-sudo cat /var/lib/rancher/K8s/server/node-token
+SSH back into the Master Node:
+
+```bash
+ssh -i ubuntu.pem ubuntu@<MASTER_PUBLIC_IP>
+```
+
+Set proper permissions:
+
+```bash
+chmod 400 /home/ubuntu/ubuntu.pem
+```
+
+Verify:
+
+```bash
+ls -l /home/ubuntu/ubuntu.pem
+```
+
+Expected:
+
+```text
+-r-------- 1 ubuntu ubuntu
+```
+
+---
+
+## Verify SSH Access from Master to Worker 1
+
+```bash
+ssh -i ubuntu.pem ubuntu@10.0.1.13
+```
+
+Expected:
+
+```text
+ubuntu@ip-10-0-1-13
+```
+
+Exit:
+
+```bash
+exit
+```
+
+---
+
+## Verify SSH Access from Master to Worker 2
+
+```bash
+ssh -i ubuntu.pem ubuntu@10.0.1.38
+```
+
+Expected:
+
+```text
+ubuntu@ip-10-0-1-38
+```
+
+Exit:
+
+```bash
+exit
+```
+
+---
+
+## Verify Node Connectivity
+
+From Master Node:
+
+```bash
+ping -c 4 10.0.1.13
+```
+
+```bash
+ping -c 4 10.0.1.38
+```
+
+Expected:
+
+```text
+64 bytes from 10.0.1.13
+64 bytes from 10.0.1.38
+```
+
+If connectivity is successful, proceed with K3s cluster installation.
 
 # 🚀 Step 2: Configure Kubernetes Cluster (K8s)
 
