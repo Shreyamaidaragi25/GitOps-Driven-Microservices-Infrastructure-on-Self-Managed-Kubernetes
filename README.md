@@ -791,17 +791,7 @@ Grafana provides:
 
 <img width="1418" height="811" alt="Screenshot 2026-07-13 023450" src="https://github.com/user-attachments/assets/f1d6fa32-f333-43ee-93fc-e307630314ec" />
 
-# 📸 Screenshots
 
-Add screenshots for:
-
-- AWS EC2 Instances
-- Terraform Apply Output
-- Kubernetes Nodes
-- Kubernetes Pods
-- Flask Application
-- Grafana Dashboard
----
 
 # 🎯 Key Learning Outcomes
 
