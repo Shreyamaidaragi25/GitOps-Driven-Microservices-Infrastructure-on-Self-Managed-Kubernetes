@@ -95,7 +95,6 @@ pipeline {
 
         stage('Deploy to K3s') {
         steps {
-            echo "UPDATED JENKINSFILE - NO CA CERTIFICATE"
             withCredentials([
                 string(
                     credentialsId: 'jenkins-token',
@@ -106,43 +105,44 @@ pipeline {
                     set +x
 
                     kubectl \
-                    --server="$K8S_SERVER" \
-                    --insecure-skip-tls-verify=true \
-                    --token="$K3S_TOKEN" \
-                    -n "$K8S_NAMESPACE" \
-                     set image deployment/$K8S_DEPLOYMENT \
-                     $K8S_CONTAINER=$DOCKER_IMAGE:$IMAGE_TAG
+                      --server="$K8S_SERVER" \
+                      --insecure-skip-tls-verify=true \
+                      --token="$K3S_TOKEN" \
+                      -n "$K8S_NAMESPACE" \
+                      set image deployment/$K8S_DEPLOYMENT \
+                      $K8S_CONTAINER=$DOCKER_IMAGE:$IMAGE_TAG
                 '''
             }
         }
     }
 
-        stage('Verify Deployment') {
-    steps {
-        withCredentials([
-            string(
-                credentialsId: 'jenkins-token',
-                variable: 'K3S_TOKEN'
-            )
-        ]) {
-            sh '''
-                set +x
+    stage('Verify Deployment') {
+        steps {
+            withCredentials([
+                string(
+                    credentialsId: 'jenkins-token',
+                    variable: 'K3S_TOKEN'
+                )
+            ]) {
+                sh '''
+                    set +x
 
-                kubectl \
-                  --server="$K8S_SERVER" \
-                  --insecure-skip-tls-verify=true \
-                  --token="$K3S_TOKEN" \
-                  -n "$K8S_NAMESPACE" \
-                  rollout status deployment/$K8S_DEPLOYMENT \
-                  --timeout=180s
+                    kubectl \
+                      --server="$K8S_SERVER" \
+                      --insecure-skip-tls-verify=true \
+                      --token="$K3S_TOKEN" \
+                      -n "$K8S_NAMESPACE" \
+                      rollout status deployment/$K8S_DEPLOYMENT \
+                      --timeout=180s
 
-                kubectl \
-                  --server="$K8S_SERVER" \
-                  --insecure-skip-tls-verify=true \
-                  --token="$K3S_TOKEN" \
-                  -n "$K8S_NAMESPACE" \
-                  get pods -o wide
-            '''
+                    kubectl \
+                      --server="$K8S_SERVER" \
+                      --insecure-skip-tls-verify=true \
+                      --token="$K3S_TOKEN" \
+                      -n "$K8S_NAMESPACE" \
+                      get pods -o wide
+                '''
+            }
         }
     }
 }
