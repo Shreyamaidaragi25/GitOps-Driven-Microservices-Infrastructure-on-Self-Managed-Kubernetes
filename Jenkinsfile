@@ -76,28 +76,22 @@ pipeline {
             }
         }
 
-        stage('DockerHub Push') {
-    steps {
-        withCredentials([
-            usernamePassword(
-                credentialsId: 'dockerhub-creds',
-                usernameVariable: 'DOCKER_USERNAME',
-                passwordVariable: 'DOCKER_PASSWORD'
-            )
-        ]) {
-            sh '''
-                echo "$DOCKER_PASSWORD" | docker login \
-                  -u "$DOCKER_USERNAME" \
-                  --password-stdin
-
-                docker push ${DOCKER_IMAGE}:${IMAGE_TAG}
-                docker push ${DOCKER_IMAGE}:latest
-
-                docker logout
-            '''
+    stage('Test DockerHub Credential') {
+        steps {
+            withCredentials([
+                usernamePassword(
+                    credentialsId: 'dockerhub-creds',
+                    usernameVariable: 'DOCKER_USERNAME',
+                    passwordVariable: 'DOCKER_PASSWORD'
+                )
+            ]) {
+                sh '''
+                    echo "Username received: [$DOCKER_USERNAME]"
+                    echo "Password received: [${DOCKER_PASSWORD:+YES}]"
+                '''
+            }
         }
     }
-}
 
         stage('Deploy to K3s') {
             steps {
