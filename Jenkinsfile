@@ -77,27 +77,27 @@ pipeline {
         }
 
         stage('DockerHub Push') {
-            steps {
-                withCredentials([
-                    usernamePassword(
-                        credentialsId: 'dockerhub-creds',
-                        usernameVariable: 'kuki25',
-                        passwordVariable: 'Doc252525'
-                    )
-                ]) {
-                    sh '''
-                        echo "$Doc252525" | docker login \
-                          -u "$kuki25" \
-                          --password-stdin
+    steps {
+        withCredentials([
+            usernamePassword(
+                credentialsId: 'dockerhub-creds',
+                usernameVariable: 'DOCKER_USERNAME',
+                passwordVariable: 'DOCKER_PASSWORD'
+            )
+        ]) {
+            sh '''
+                echo "$DOCKER_PASSWORD" | docker login \
+                  -u "$DOCKER_USERNAME" \
+                  --password-stdin
 
-                        docker push ${DOCKER_IMAGE}:${IMAGE_TAG}
-                        docker push ${DOCKER_IMAGE}:latest
+                docker push ${DOCKER_IMAGE}:${IMAGE_TAG}
+                docker push ${DOCKER_IMAGE}:latest
 
-                        docker logout
-                    '''
-                }
-            }
+                docker logout
+            '''
         }
+    }
+}
 
         stage('Deploy to K3s') {
             steps {
