@@ -93,49 +93,49 @@ pipeline {
         }
     }
 
-        stage('Deploy to K3s') {
-    steps {
-        sshagent(['k3s-master-ssh']) {
-            sh '''
-                ssh -o StrictHostKeyChecking=no \
-                    ubuntu@10.0.1.16 \
-                    "sudo kubectl set image deployment/$K8S_DEPLOYMENT \
-                    $K8S_CONTAINER=$DOCKER_IMAGE:$IMAGE_TAG"
-            '''
+            stage('Deploy to K3s') {
+        steps {
+            sshagent(['k3s-master-ssh']) {
+                sh '''
+                    ssh -o StrictHostKeyChecking=no \
+                        ubuntu@10.0.1.16 \
+                        "sudo kubectl set image deployment/$K8S_DEPLOYMENT \
+                        $K8S_CONTAINER=$DOCKER_IMAGE:$IMAGE_TAG"
+                '''
+            }
+        }
+    }
+
+    stage('Verify Deployment') {
+        steps {
+            sshagent(['k3s-master-ssh']) {
+                sh '''
+                    ssh -o StrictHostKeyChecking=no \
+                        ubuntu@10.0.1.16 \
+                        "sudo kubectl rollout status deployment/$K8S_DEPLOYMENT \
+                        --timeout=180s"
+
+                    ssh -o StrictHostKeyChecking=no \
+                        ubuntu@10.0.1.16 \
+                        "sudo kubectl get pods -o wide"
+                '''
+            }
         }
     }
 }
 
-stage('Verify Deployment') {
-    steps {
-        sshagent(['k3s-master-ssh']) {
-            sh '''
-                ssh -o StrictHostKeyChecking=no \
-                    ubuntu@10.0.1.16 \
-                    "sudo kubectl rollout status deployment/$K8S_DEPLOYMENT \
-                    --timeout=180s"
+post {
+    success {
+        echo "PawCare CI/CD pipeline completed successfully!"
+        echo "Deployed image: ${DOCKER_IMAGE}:${IMAGE_TAG}"
+    }
 
-                ssh -o StrictHostKeyChecking=no \
-                    ubuntu@10.0.1.16 \
-                    "sudo kubectl get pods -o wide"
-            '''
-        }
+    failure {
+        echo "PawCare CI/CD pipeline failed. Check the failed stage above."
+    }
+
+    always {
+        sh 'docker image prune -f || true'
     }
 }
-    post {
-        success {
-            echo "PawCare CI/CD pipeline completed successfully!"
-            echo "Deployed image: ${DOCKER_IMAGE}:${IMAGE_TAG}"
-        }
-
-        failure {
-            echo "PawCare CI/CD pipeline failed. Check the failed stage above."
-        }
-
-        always {
-            sh 'docker image prune -f || true'
-        }
-    }
-}
-
 }
