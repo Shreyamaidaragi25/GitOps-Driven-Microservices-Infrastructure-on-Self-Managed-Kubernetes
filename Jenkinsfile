@@ -95,6 +95,7 @@ pipeline {
 
         stage('Deploy to K3s') {
         steps {
+            echo "UPDATED JENKINSFILE - NO CA CERTIFICATE"
             withCredentials([
                 string(
                     credentialsId: 'jenkins-token',
