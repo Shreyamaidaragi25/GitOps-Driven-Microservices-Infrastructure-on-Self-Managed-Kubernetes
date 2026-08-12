@@ -94,59 +94,34 @@ pipeline {
     }
 
         stage('Deploy to K3s') {
-        steps {
-            withCredentials([
-                string(
-                    credentialsId: 'jenkins-token',
-                    variable: 'K3S_TOKEN'
-                )
-            ]) {
-                sh '''
-                    set +x
-
-                    kubectl \
-                      --server="$K8S_SERVER" \
-                      --insecure-skip-tls-verify=true \
-                      --token="$K3S_TOKEN" \
-                      -n "$K8S_NAMESPACE" \
-                      set image deployment/$K8S_DEPLOYMENT \
-                      $K8S_CONTAINER=$DOCKER_IMAGE:$IMAGE_TAG
-                '''
-            }
-        }
-    }
-
-    stage('Verify Deployment') {
-        steps {
-            withCredentials([
-                string(
-                    credentialsId: 'jenkins-token',
-                    variable: 'K3S_TOKEN'
-                )
-            ]) {
-                sh '''
-                    set +x
-
-                    kubectl \
-                      --server="$K8S_SERVER" \
-                      --insecure-skip-tls-verify=true \
-                      --token="$K3S_TOKEN" \
-                      -n "$K8S_NAMESPACE" \
-                      rollout status deployment/$K8S_DEPLOYMENT \
-                      --timeout=180s
-
-                    kubectl \
-                      --server="$K8S_SERVER" \
-                      --insecure-skip-tls-verify=true \
-                      --token="$K3S_TOKEN" \
-                      -n "$K8S_NAMESPACE" \
-                      get pods -o wide
-                '''
-            }
+    steps {
+        sshagent(['k3s-master-ssh']) {
+            sh '''
+                ssh -o StrictHostKeyChecking=no \
+                    ubuntu@10.0.1.16 \
+                    "sudo kubectl set image deployment/$K8S_DEPLOYMENT \
+                    $K8S_CONTAINER=$DOCKER_IMAGE:$IMAGE_TAG"
+            '''
         }
     }
 }
 
+stage('Verify Deployment') {
+    steps {
+        sshagent(['k3s-master-ssh']) {
+            sh '''
+                ssh -o StrictHostKeyChecking=no \
+                    ubuntu@10.0.1.16 \
+                    "sudo kubectl rollout status deployment/$K8S_DEPLOYMENT \
+                    --timeout=180s"
+
+                ssh -o StrictHostKeyChecking=no \
+                    ubuntu@10.0.1.16 \
+                    "sudo kubectl get pods -o wide"
+            '''
+        }
+    }
+}
     post {
         success {
             echo "PawCare CI/CD pipeline completed successfully!"
