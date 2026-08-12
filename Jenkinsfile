@@ -94,78 +94,57 @@ pipeline {
     }
 
         stage('Deploy to K3s') {
-            steps {
-                withCredentials([
-                    string(
-                        credentialsId: 'jenkins-token',
-                        variable: 'K3S_TOKEN'
-                    ),
-                    string(
-                        credentialsId: 'jenkins-CA-Cert',
-                        variable: 'K3S_CA_CERT'
-                    )
-                ]) {
+        steps {
+            withCredentials([
+                string(
+                    credentialsId: 'jenkins-token',
+                    variable: 'K3S_TOKEN'
+                )
+            ]) {
+                sh '''
+                    set +x
 
-                    sh '''
-                        set +x
-
-                        CA_FILE=$(mktemp)
-                        printf '%s\\n' "$K3S_CA_CERT" > "$CA_FILE"
-
-                        kubectl \
-                          --server="$K8S_SERVER" \
-                          --certificate-authority="$CA_FILE" \
-                          --token="$K3S_TOKEN" \
-                          -n "$K8S_NAMESPACE" \
-                          set image deployment/$K8S_DEPLOYMENT \
-                          $K8S_CONTAINER=$DOCKER_IMAGE:$IMAGE_TAG
-
-                        rm -f "$CA_FILE"
-                    '''
-                }
-            }
-        }
-
-        stage('Verify Deployment') {
-            steps {
-                withCredentials([
-                    string(
-                        credentialsId: 'jenkins-token',
-                        variable: 'K3S_TOKEN'
-                    ),
-                    string(
-                        credentialsId: 'jenkins-CA-Cert',
-                        variable: 'K3S_CA_CERT'
-                    )
-                ]) {
-
-                    sh '''
-                        set +x
-
-                        CA_FILE=$(mktemp)
-                        printf '%s\\n' "$K3S_CA_CERT" > "$CA_FILE"
-
-                        kubectl \
-                          --server="$K8S_SERVER" \
-                          --certificate-authority="$CA_FILE" \
-                          --token="$K3S_TOKEN" \
-                          -n "$K8S_NAMESPACE" \
-                          rollout status deployment/$K8S_DEPLOYMENT \
-                          --timeout=180s
-
-                        kubectl \
-                          --server="$K8S_SERVER" \
-                          --certificate-authority="$CA_FILE" \
-                          --token="$K3S_TOKEN" \
-                          -n "$K8S_NAMESPACE" \
-                          get pods -o wide
-
-                        rm -f "$CA_FILE"
-                    '''
-                }
+                    kubectl \
+                    --server="$K8S_SERVER" \
+                    --insecure-skip-tls-verify=true \
+                    --token="$K3S_TOKEN" \
+                    -n "$K8S_NAMESPACE" \
+                     set image deployment/$K8S_DEPLOYMENT \
+                     $K8S_CONTAINER=$DOCKER_IMAGE:$IMAGE_TAG
+                '''
             }
         }
     }
+
+        stage('Verify Deployment') {
+    steps {
+        withCredentials([
+            string(
+                credentialsId: 'jenkins-token',
+                variable: 'K3S_TOKEN'
+            )
+        ]) {
+            sh '''
+                set +x
+
+                kubectl \
+                  --server="$K8S_SERVER" \
+                  --insecure-skip-tls-verify=true \
+                  --token="$K3S_TOKEN" \
+                  -n "$K8S_NAMESPACE" \
+                  rollout status deployment/$K8S_DEPLOYMENT \
+                  --timeout=180s
+
+                kubectl \
+                  --server="$K8S_SERVER" \
+                  --insecure-skip-tls-verify=true \
+                  --token="$K3S_TOKEN" \
+                  -n "$K8S_NAMESPACE" \
+                  get pods -o wide
+            '''
+        }
+    }
+}
 
     post {
         success {
