@@ -97,11 +97,11 @@ pipeline {
             steps {
                 withCredentials([
                     string(
-                        credentialsId: 'k3s-jenkins-token',
+                        credentialsId: 'jenkins-token',
                         variable: 'K3S_TOKEN'
                     ),
                     string(
-                        credentialsId: 'k3s-ca-cert',
+                        credentialsId: 'jenkins-CA-Cert',
                         variable: 'K3S_CA_CERT'
                     )
                 ]) {
@@ -130,11 +130,11 @@ pipeline {
             steps {
                 withCredentials([
                     string(
-                        credentialsId: 'k3s-jenkins-token',
+                        credentialsId: 'jenkins-token',
                         variable: 'K3S_TOKEN'
                     ),
                     string(
-                        credentialsId: 'k3s-ca-cert',
+                        credentialsId: 'jenkins-CA-Cert',
                         variable: 'K3S_CA_CERT'
                     )
                 ]) {
