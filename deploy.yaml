@@ -1,20 +1,57 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-app
+  name: pawcare
 spec:
-  replicas: 3
+  replicas: 2
+
   selector:
     matchLabels:
-      app: flask-app
+      app: pawcare
+
   template:
     metadata:
       labels:
-        app: flask-app
+        app: pawcare
+
     spec:
       containers:
-      - name: flask-app
-        image: docker.io/kuki25/flask-app:latest
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 5000
+        - name: pawcare
+          image: kuki25/pawcare:v1
+          imagePullPolicy: Always
+
+          ports:
+            - containerPort: 5000
+
+          env:
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: pawcare-db-secrets
+                  key: DB_HOST
+
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: pawcare-db-secrets
+                  key: DB_PORT
+
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: pawcare-db-secrets
+                  key: DB_NAME
+
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: pawcare-db-secrets
+                  key: DB_USER
+
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pawcare-db-secrets
+                  key: DB_PASSWORD
+            - name: DB_SSLMODE
+              value: "require"

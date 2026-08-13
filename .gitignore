@@ -1,26 +1,20 @@
 # Terraform
-.terraform/
-*.tfstate
-*.tfstate.*
-*.tfplan
-
-# Environment files
-.env
-.env.*
-
-# SSH keys
-*.pem
-*.key
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.*
+terraform/tfplan
+terraform/plan.txt
 
 # Python
-__pycache__/
-*.pyc
 venv/
 .venv/
+__pycache__/
+*.pyc
 
-# IDE
-.vscode/
+# Environment/secrets
+.env
+*.pem
 
-# OS files
+# OS/editor
 .DS_Store
-Thumbs.db
+.vscode/
