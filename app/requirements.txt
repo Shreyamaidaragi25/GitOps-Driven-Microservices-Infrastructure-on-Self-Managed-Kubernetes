@@ -1,6 +1,2 @@
-flask==3.0.3
- HEAD
-psycopg2-binary==2.9.12  #Flask needs to communicate with Postgre SQL
-=======
-psycopg2-binary==2.9.12  #Flask needs to communicate with Postgre SQL
-03d57282f0581580e2a59611273f57c051ea9a94
+Flask==3.0.3
+psycopg2-binary==2.9.12
