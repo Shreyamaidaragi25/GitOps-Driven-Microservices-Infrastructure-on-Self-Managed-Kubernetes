@@ -479,6 +479,7 @@ Bruno - Labrador - Dog
 Luna - Persian Cat - Cat
 Max - Beagle - Dog
 ```
+<img width="1626" height="942" alt="Screenshot 2026-08-12 160129" src="https://github.com/user-attachments/assets/2c460573-d8a3-4f41-840f-a803ba5879cb" />
 
 ## Add Pet
 
@@ -492,6 +493,7 @@ Breed: Golden Retriever
 Age: 2
 Species: Dog
 ```
+<img width="1663" height="929" alt="Pawcare-App-UI" src="https://github.com/user-attachments/assets/6e696d5b-e76c-4bec-8246-56443550a1e1" />
 
 ## Adopt Pet
 
@@ -506,6 +508,7 @@ to:
 ```text
 Adopted
 ```
+<img width="1542" height="840" alt="Screenshot 2026-08-11 180249" src="https://github.com/user-attachments/assets/a2539c5b-76da-439b-a478-1f287a6b8924" />
 
 ## Health Endpoint
 
@@ -732,6 +735,8 @@ Jenkins verifies that Kubernetes successfully completes the deployment.
 ```bash
 kubectl rollout status deployment/pawcare
 ```
+
+<img width="1075" height="501" alt="Jenkins-pipeline" src="https://github.com/user-attachments/assets/d28394d9-f098-4822-a18a-4e2b2524f994" />
 
 ---
 
@@ -1020,6 +1025,8 @@ Delete one pod:
 sudo kubectl delete pod <pod-name>
 ```
 
+<img width="1451" height="231" alt="Screenshot 2026-08-12 160730" src="https://github.com/user-attachments/assets/5f902c9e-0b9e-43d9-9ef5-6fe1920e0c99" />
+
 Watch the replacement:
 
 ```bash
@@ -1029,6 +1036,8 @@ sudo kubectl get pods -l app=pawcare -w
 Kubernetes automatically creates a replacement pod.
 
 ---
+
+<img width="1480" height="560" alt="Screenshot 2026-08-12 233704" src="https://github.com/user-attachments/assets/a14c7691-247f-4062-bce7-f700d147f5cf" />
 
 # 🔄 Rolling Updates
 
@@ -1058,6 +1067,8 @@ Check rollout status:
 ```bash
 sudo kubectl rollout status deployment/pawcare
 ```
+
+<img width="1131" height="763" alt="kubernetes-rollout" src="https://github.com/user-attachments/assets/679f02a8-5863-4226-b197-89be56ad6e58" />
 
 View rollout history:
 
@@ -1169,6 +1180,8 @@ Verify:
 sudo kubectl get pods -n monitoring
 ```
 
+<img width="1440" height="647" alt="k8s-monitoring" src="https://github.com/user-attachments/assets/65aa392c-40c0-4791-af60-de50ed473cf8" />
+
 ---
 
 # 🔑 Grafana Login
@@ -1234,6 +1247,8 @@ Grafana can be used to visualize:
 - Cluster resource utilization
 
 A dedicated PawCare dashboard can be created using Prometheus as the datasource.
+
+<img width="941" height="827" alt="Grafana_dashboard" src="https://github.com/user-attachments/assets/65850f73-2dfd-4ba5-955e-802bf95daa05" />
 
 ---
 
@@ -1307,11 +1322,15 @@ Age: 2
 Species: Dog
 ```
 
+<img width="1746" height="847" alt="Pawcare-app-2" src="https://github.com/user-attachments/assets/7d5e8858-e050-499e-81cc-44caa4511071" />
+
 ## Step 2 – Refresh
 
 Refresh the browser.
 
 The newly added pet should still be available.
+
+<img width="1746" height="847" alt="Pawcare-app-2" src="https://github.com/user-attachments/assets/c8d8ff0f-af32-4c33-a865-a0dacba607b2" />
 
 ## Step 3 – Delete a PawCare Pod
 
@@ -1327,6 +1346,8 @@ Delete one:
 sudo kubectl delete pod <pod-name>
 ```
 
+<img width="1451" height="231" alt="Screenshot 2026-08-12 160730" src="https://github.com/user-attachments/assets/5e1a1d9f-9a28-4098-b44a-4256fa2a2d2e" />
+
 ## Step 4 – Wait for Replacement
 
 ```bash
@@ -1338,6 +1359,8 @@ Kubernetes will create a replacement.
 ## Step 5 – Verify Data
 
 Refresh PawCare.
+
+<img width="1746" height="847" alt="Pawcare-app-2" src="https://github.com/user-attachments/assets/ead95fb6-c96f-48b5-a885-da4e70de72a4" />
 
 The pet should still exist.
 
