@@ -1,6 +1,6 @@
 # 🐾 PawCare – GitOps-Driven DevSecOps Application on Self-Managed Kubernetes
 
-## 📌 Project Overview
+##  Project Overview
 
 PawCare is a production-style DevSecOps project that demonstrates the complete lifecycle of deploying, managing, and monitoring a containerized web application on a self-managed Kubernetes cluster running on AWS.
 
@@ -29,7 +29,7 @@ The project combines Infrastructure as Code, cloud infrastructure, containerizat
 
 ---
 
-# 🎯 Project Objective
+#  Project Objective
 
 The main objective of this project is to build an end-to-end DevSecOps workflow where infrastructure provisioning, application development, containerization, CI/CD, Kubernetes deployment, database persistence, and monitoring are integrated into a single platform.
 
@@ -54,7 +54,7 @@ The project demonstrates:
 
 ---
 
-# 💡 Use Case
+#  Use Case
 
 In a traditional deployment process, developers may need to manually build applications, copy files to servers, configure environments, restart services, and verify application availability.
 
@@ -104,7 +104,7 @@ Jenkins
 
 ---
 
-# 🏗️ Overall Architecture
+#  Overall Architecture
 
 ```text
                            AWS CLOUD
@@ -153,7 +153,7 @@ Jenkins
 
 ---
 
-# ☁️ AWS Infrastructure
+#  AWS Infrastructure
 
 The PawCare infrastructure is hosted on Amazon Web Services (AWS).
 
@@ -196,7 +196,7 @@ Protocol: TCP
 
 ---
 
-# 🌐 AWS Network Architecture
+#  AWS Network Architecture
 
 The project uses a custom VPC with public and private networking.
 
@@ -242,7 +242,7 @@ Security Groups control network access between:
 
 ---
 
-# 🏗️ Terraform Infrastructure
+#  Terraform Infrastructure
 
 Terraform is used as Infrastructure as Code to create and manage the AWS infrastructure.
 
@@ -308,7 +308,7 @@ For production/team environments, Terraform state should preferably be stored in
 
 ---
 
-# 🔄 Terraform Workflow
+#  Terraform Workflow
 
 The infrastructure follows this workflow:
 
@@ -333,7 +333,7 @@ AWS Infrastructure
 
 ---
 
-# 🚀 Terraform Setup
+#  Terraform Setup
 
 Navigate to the Terraform directory:
 
@@ -375,7 +375,7 @@ The outputs provide information such as the public IP addresses of the Kubernete
 
 ---
 
-# ⚠️ Terraform Best Practices
+#  Terraform Best Practices
 
 Always review the Terraform plan before applying changes.
 
@@ -397,7 +397,7 @@ Avoid manually deleting or modifying Terraform-managed AWS resources because thi
 
 ---
 
-# ☸️ Self-Managed Kubernetes with K3s
+#  Self-Managed Kubernetes with K3s
 
 K3s is used as the Kubernetes distribution for this project.
 
@@ -423,7 +423,7 @@ Architecture:
 
 ---
 
-# 🔎 Verify the Kubernetes Cluster
+#  Verify the Kubernetes Cluster
 
 Connect to the K3s master:
 
@@ -466,7 +466,7 @@ The application provides:
 
 ---
 
-# ✨ Application Features
+#  Application Features
 
 ## View Pets
 
@@ -560,7 +560,7 @@ Uses a POST request to update a pet's adoption status.
 
 ---
 
-# 📁 Application Structure
+#  Application Structure
 
 ```text
 app/
@@ -572,7 +572,7 @@ app/
 
 ---
 
-# 🐳 Docker Containerization
+#  Docker Containerization
 
 The PawCare application is packaged as a Docker image.
 
@@ -612,7 +612,7 @@ kuki25/pawcare:<tag>
 
 ---
 
-# 🧪 Build Docker Image Locally
+#  Build Docker Image Locally
 
 Build the image:
 
@@ -640,7 +640,7 @@ http://localhost:5000
 
 ---
 
-# 🔄 CI/CD Pipeline with Jenkins
+#  CI/CD Pipeline with Jenkins
 
 Jenkins is used to automate the PawCare application build and deployment process.
 
@@ -680,7 +680,7 @@ Rollout Verification
 
 ---
 
-# 🔁 Jenkins Pipeline Stages
+#  Jenkins Pipeline Stages
 
 ## 1. Source Code Checkout
 
@@ -740,7 +740,7 @@ kubectl rollout status deployment/pawcare
 
 ---
 
-# 📦 Kubernetes Deployment
+#  Kubernetes Deployment
 
 The PawCare application is deployed using a Kubernetes Deployment.
 
@@ -773,7 +773,7 @@ Architecture:
 
 ---
 
-# 🌐 Kubernetes Service
+#  Kubernetes Service
 
 A Kubernetes Service provides stable network access to the PawCare pods.
 
@@ -794,7 +794,7 @@ The Service provides stable access while Kubernetes manages the underlying pods.
 
 ---
 
-# 📄 Kubernetes Configuration Files
+#  Kubernetes Configuration Files
 
 The main Kubernetes files are:
 
@@ -820,7 +820,7 @@ Defines the Kubernetes Service used to expose the PawCare application.
 
 ---
 
-# 🗄️ PostgreSQL Database
+#  PostgreSQL Database
 
 PawCare uses PostgreSQL as its persistent database.
 
@@ -853,7 +853,7 @@ Persistent Application Data
 
 ---
 
-# 💾 Database Persistence
+#  Database Persistence
 
 Kubernetes pods are temporary.
 
@@ -882,7 +882,7 @@ Therefore, application data remains available when:
 
 ---
 
-# 🔐 Kubernetes Secrets
+#  Kubernetes Secrets
 
 Database configuration is provided through a Kubernetes Secret.
 
@@ -943,7 +943,7 @@ Actual database passwords should never be committed to GitHub.
 
 ---
 
-# 🔎 Verify Kubernetes Secret
+#  Verify Kubernetes Secret
 
 Check whether the Secret exists:
 
@@ -959,7 +959,7 @@ sudo kubectl describe secret pawcare-db-secrets
 
 ---
 
-# 🧪 Application Health Check
+#  Application Health Check
 
 The application provides:
 
@@ -983,7 +983,7 @@ Expected response:
 
 ---
 
-# ♻️ Kubernetes Self-Healing
+#  Kubernetes Self-Healing
 
 The application runs with:
 
@@ -1011,7 +1011,7 @@ The Deployment maintains the desired number of replicas.
 
 ---
 
-# 🧪 Demonstrate Self-Healing
+#  Demonstrate Self-Healing
 
 Check PawCare pods:
 
@@ -1039,7 +1039,7 @@ Kubernetes automatically creates a replacement pod.
 
 <img width="1480" height="560" alt="Screenshot 2026-08-12 233704" src="https://github.com/user-attachments/assets/a14c7691-247f-4062-bce7-f700d147f5cf" />
 
-# 🔄 Rolling Updates
+#  Rolling Updates
 
 When a new application version is deployed, Kubernetes gradually replaces old pods with new ones.
 
@@ -1078,7 +1078,7 @@ sudo kubectl rollout history deployment/pawcare
 
 ---
 
-# 📦 Helm
+#  Helm
 
 Helm is used as the Kubernetes package manager for the monitoring stack.
 
@@ -1103,7 +1103,7 @@ sudo env KUBECONFIG=/etc/rancher/k3s/k3s.yaml helm list -A
 
 ---
 
-# 📊 Monitoring with Prometheus and Grafana
+#  Monitoring with Prometheus and Grafana
 
 The project uses Prometheus and Grafana for Kubernetes monitoring.
 
@@ -1144,7 +1144,7 @@ Grafana
 
 ---
 
-# 🛠️ Install Monitoring Stack
+#  Install Monitoring Stack
 
 Add the Prometheus Community repository:
 
@@ -1184,7 +1184,7 @@ sudo kubectl get pods -n monitoring
 
 ---
 
-# 🔑 Grafana Login
+#  Grafana Login
 
 Retrieve the Grafana administrator password:
 
@@ -1205,7 +1205,7 @@ The generated password should be treated as a secret.
 
 ---
 
-# 🌐 Access Grafana
+#  Access Grafana
 
 Check the Grafana Service:
 
@@ -1233,7 +1233,7 @@ The AWS Security Group must allow TCP port `3000` from the required client IP wh
 
 ---
 
-# 📊 Grafana Monitoring
+#  Grafana Monitoring
 
 Grafana can be used to visualize:
 
@@ -1252,7 +1252,7 @@ A dedicated PawCare dashboard can be created using Prometheus as the datasource.
 
 ---
 
-# 📈 Useful Prometheus Queries
+#  Useful Prometheus Queries
 
 ## PawCare Ready Pods
 
@@ -1305,7 +1305,7 @@ sum(
 
 ---
 
-# 🧪 Database Persistence Demonstration
+#  Database Persistence Demonstration
 
 Database persistence is one of the most important demonstrations in the project.
 
@@ -1384,7 +1384,7 @@ Data Still Available
 
 ---
 
-# 🔁 How to Re-run the Project
+#  How to Re-run the Project
 
 The project does not need to be rebuilt from scratch every time.
 
@@ -1424,7 +1424,7 @@ If the AWS infrastructure and K3s cluster are already running, there is no need 
 
 ---
 
-# ✏️ How to Modify the Application
+#  How to Modify the Application
 
 Application code:
 
@@ -1456,7 +1456,7 @@ Then run the Jenkins pipeline.
 
 ---
 
-# ✏️ How to Modify Kubernetes Configuration
+#  How to Modify Kubernetes Configuration
 
 Kubernetes configuration is maintained in:
 
@@ -1484,7 +1484,7 @@ Run Jenkins to deploy the updated configuration.
 
 ---
 
-# ✏️ How to Modify Terraform Infrastructure
+#  How to Modify Terraform Infrastructure
 
 Terraform configuration is located under:
 
@@ -1510,7 +1510,7 @@ terraform apply
 
 ---
 
-# 🔄 Complete Re-run Workflow
+#  Complete Re-run Workflow
 
 The complete environment follows this order:
 
@@ -1573,7 +1573,7 @@ terraform apply
 
 ---
 
-# 🔎 Useful Kubernetes Commands
+#  Useful Kubernetes Commands
 
 ## Check Nodes
 
@@ -1655,7 +1655,7 @@ sudo kubectl get svc -n monitoring
 
 ---
 
-# 🔐 Security Practices
+#  Security Practices
 
 The project follows several DevSecOps security practices.
 
@@ -1715,7 +1715,7 @@ Sensitive credentials must never be committed to GitHub.
 
 ---
 
-# 📁 Final Project Structure
+#  Final Project Structure
 
 The project should be maintained as one repository and one project folder.
 
@@ -1745,7 +1745,7 @@ PawCare-DevSecOps/
 
 ---
 
-# 📂 Directory Explanation
+#  Directory Explanation
 
 ## `app/`
 
@@ -1825,7 +1825,7 @@ Contains complete project documentation.
 
 ---
 
-# 🔄 Complete End-to-End DevSecOps Workflow
+#  Complete End-to-End DevSecOps Workflow
 
 ```text
                          Developer
@@ -1874,7 +1874,7 @@ Contains complete project documentation.
 
 ---
 
-# 🔐 DevSecOps Lifecycle
+#  DevSecOps Lifecycle
 
 The project demonstrates the following lifecycle:
 
@@ -2108,7 +2108,7 @@ Grafana
 
 ---
 
-# 🧠 Key DevOps Concepts Demonstrated
+#  Key DevOps Concepts Demonstrated
 
 ## Infrastructure as Code
 
@@ -2165,7 +2165,7 @@ GitHub stores:
 
 ---
 
-# 📈 Why Kubernetes Is Used
+# Why Kubernetes Is Used
 
 Kubernetes provides:
 
@@ -2197,7 +2197,7 @@ The desired application state is defined using YAML files.
 
 ---
 
-# 📈 Why Docker Is Used
+#  Why Docker Is Used
 
 Docker provides:
 
@@ -2209,7 +2209,7 @@ Docker provides:
 
 ---
 
-# 📈 Why Terraform Is Used
+#  Why Terraform Is Used
 
 Terraform allows infrastructure to be:
 
@@ -2223,7 +2223,7 @@ Instead of manually creating every AWS resource, infrastructure is defined using
 
 ---
 
-# 📈 Why Jenkins Is Used
+#  Why Jenkins Is Used
 
 Without Jenkins:
 
@@ -2259,7 +2259,7 @@ Kubernetes
 
 ---
 
-# 📈 Why Amazon RDS Is Used
+#  Why Amazon RDS Is Used
 
 Amazon RDS provides managed PostgreSQL database infrastructure.
 
@@ -2282,7 +2282,7 @@ Amazon RDS
 
 ---
 
-# 📈 Why Prometheus and Grafana Are Used
+#  Why Prometheus and Grafana Are Used
 
 A deployed application should not only be running; it should also be observable.
 
@@ -2314,7 +2314,7 @@ This provides visibility into the health and resource utilization of the Kuberne
 
 ---
 
-# 🛠️ Operational Health Checks
+#  Operational Health Checks
 
 Before considering the application healthy, verify the following.
 
@@ -2368,7 +2368,7 @@ Prometheus and Grafana components should be running.
 
 ---
 
-# 🚀 Future Enhancements
+#  Future Enhancements
 
 The current project can be extended with:
 
@@ -2398,7 +2398,7 @@ These are future enhancements and are not part of the current implementation.
 
 ---
 
-# 📌 Current Project Scope
+#  Current Project Scope
 
 The current project focuses on an end-to-end DevSecOps deployment of the PawCare application.
 
@@ -2472,7 +2472,7 @@ The project demonstrates how infrastructure provisioning, application developmen
 
 ---
 
-# ⭐ Project Highlights
+#  Project Highlights
 
 - AWS cloud infrastructure
 - Terraform Infrastructure as Code
@@ -2501,7 +2501,7 @@ The project demonstrates how infrastructure provisioning, application developmen
 
 ---
 
-# 👩‍💻 Author
+#  Author
 
 ## Shreya Maidaragi
 
@@ -2529,7 +2529,7 @@ Grafana
 
 ---
 
-# ⭐ Project Summary
+#  Project Summary
 
 **PawCare is a Git-driven DevSecOps application deployed on a self-managed Kubernetes cluster running on AWS, with Terraform-managed infrastructure, Jenkins-based CI/CD, Docker-based containerization, Docker Hub image management, PostgreSQL persistence through Amazon RDS, Kubernetes Secrets for secure configuration, and Prometheus/Grafana monitoring.**
 
